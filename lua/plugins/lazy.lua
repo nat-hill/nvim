@@ -19,8 +19,8 @@ require('lazy').setup({
   { "nyoom-engineering/oxocarbon.nvim" },
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter', 'BurntSushi/ripgrep', 'https://github.com/sharkdp/fd'  } },
-
+  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' } },
+  -- Unused: , 'BurntSushi/ripgrep', 'https://github.com/sharkdp/fd'  
   -- File tree
   {
     "nvim-tree/nvim-tree.lua",
