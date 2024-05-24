@@ -16,8 +16,8 @@ require('lazy').setup({
 
   -- Color scheme
   -- { "catppuccin/nvim", as = "catppuccin" },
-  -- { "nyoom-engineering/oxocarbon.nvim" },
-  { "rose-pine/neovim", name = "rose-pine" },
+  { "nyoom-engineering/oxocarbon.nvim" },
+  -- { "rose-pine/neovim", name = "rose-pine" },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' } },
