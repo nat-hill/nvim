@@ -9,6 +9,11 @@ vim.keymap.set("n", "<leader>x", ":bd<cr>")
 -- yank to clipboard
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 
+-- quit on q
+vim.keymap.set('n', '<leader>q', vim.cmd.quit)
+
+-- save on s
+vim.keymap.set('n', '<leader>w', vim.cmd.w_c)
 
 -- GRAVEYARD --
 

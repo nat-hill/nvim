@@ -10,8 +10,9 @@ zsh + [oh my zsh](https://github.com/ohmyzsh/ohmyzsh) + [Headline](https://githu
 
 #### terminal:
 
-iterm2 + [oxocarbon theme](https://github.com/nyoom-engineering/oxocarbon-iterm2)
+iterm2 + ~~[oxocarbon theme](https://github.com/nyoom-engineering/oxocarbon-iterm2)~~ -> custom theme in repo
 
 
 #### font:
-jetbrains mono nerd font
+
+~~jetbrains mono nerd font~~ [commit mono](https://commitmono.com/)
