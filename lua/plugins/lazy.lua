@@ -16,10 +16,11 @@ require('lazy').setup({
 
   -- Color scheme
   -- { "catppuccin/nvim", as = "catppuccin" },
-  -- { "nyoom-engineering/oxocarbon.nvim" },
+  { "nyoom-engineering/oxocarbon.nvim" },
   -- { "rose-pine/neovim", name = "rose-pine" },
-  { 'projekt0n/github-nvim-theme' },
-
+  -- { 'projekt0n/github-nvim-theme' },
+  -- Vim Fugitive
+  -- { 'tpope/vim-fugitive' },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' } },
@@ -136,32 +137,34 @@ require('lazy').setup({
         lsp_zero.default_keymaps({buffer = bufnr})
       end)
 
-      -- require('mason-lspconfig').setup({
-      --   ensure_installed = {
-      --     'pyright',  -- python
-      --     'tsserver', -- js, ts
-      --   },
-      --   handlers = {
-      --     lsp_zero.default_setup,
-      --     lua_ls = function()
-      --       -- (Optional) Configure lua language server for neovim
-      --       local lua_opts = lsp_zero.nvim_lua_ls()
-      --       require('lspconfig').lua_ls.setup(lua_opts)
-      --     end,
-      --   }
-      -- })
-      --
-      -- -- Python environment
-      -- local util = require("lspconfig/util")
-      -- local path = util.path
-      -- require('lspconfig').pyright.setup {
-      --   on_attach = on_attach,
-      --   capabilities = capabilities,
-      --   before_init = function(_, config)
-      --     default_venv_path = path.join(vim.env.HOME, "virtualenvs", "nvim-venv", "bin", "python")
-      --     config.settings.python.pythonPath = default_venv_path
-      --   end,
-      -- }
+      require('mason-lspconfig').setup({
+        ensure_installed = {
+          'pyright',  -- python
+          'tsserver', -- js, ts
+	  'rubocop', -- Ruby
+	  'sorbet',
+        },
+        handlers = {
+          lsp_zero.default_setup,
+          lua_ls = function()
+            -- (Optional) Configure lua language server for neovim
+            local lua_opts = lsp_zero.nvim_lua_ls()
+            require('lspconfig').lua_ls.setup(lua_opts)
+          end,
+        }
+      })
+      
+      -- Python environment
+      local util = require("lspconfig/util")
+      local path = util.path
+      require('lspconfig').pyright.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        before_init = function(_, config)
+          default_venv_path = path.join(vim.env.HOME, "virtualenvs", "nvim-venv", "bin", "python")
+          config.settings.python.pythonPath = default_venv_path
+        end,
+      }
     end
   }
 
