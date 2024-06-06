@@ -14,10 +14,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
 	-- Color scheme(s)
-	{ "nyoom-engineering/oxocarbon.nvim" },
+	-- { "nyoom-engineering/oxocarbon.nvim" },
 	-- { "rose-pine/neovim", name = "rose-pine" },
 	-- { 'projekt0n/github-nvim-theme' },
 	-- { "catppuccin/nvim", as = "catppuccin" },
+	{ "EdenEast/nightfox.nvim" }, 
 
 	-- Vim Fugitive
 	-- { 'tpope/vim-fugitive' },
