@@ -13,160 +13,203 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+	-- Color scheme(s)
+	{ "nyoom-engineering/oxocarbon.nvim" },
+	-- { "rose-pine/neovim", name = "rose-pine" },
+	-- { 'projekt0n/github-nvim-theme' },
+	-- { "catppuccin/nvim", as = "catppuccin" },
 
-  -- Color scheme
-  -- { "catppuccin/nvim", as = "catppuccin" },
-  { "nyoom-engineering/oxocarbon.nvim" },
-  -- { "rose-pine/neovim", name = "rose-pine" },
-  -- { 'projekt0n/github-nvim-theme' },
-  -- Vim Fugitive
-  -- { 'tpope/vim-fugitive' },
+	-- Vim Fugitive
+	-- { 'tpope/vim-fugitive' },
+	-- neoterm -> toggleterm
+	{'akinsho/toggleterm.nvim', version = "*", config = true},
+	-- Project.nvim 
+	{
+	'ahmedkhalf/project.nvim',
+	config = function()
+	require("project_nvim").setup({})
+	end
+	},
 
-  -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' } },
-  -- Unused: , 'BurntSushi/ripgrep', 'https://github.com/sharkdp/fd'  
-  -- File tree
-  {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
-    requires = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-        require("nvim-tree").setup {}
-      end,
-  },
+	-- Fuzzy Finder (files, lsp, etc)
+	{ 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' } },
 
-  -- Save and load buffers (a session) automatically for each folder
-  {
-    'rmagatti/auto-session',
-    config = function()
-      require("auto-session").setup {
-        log_level = "error",
-        auto_session_suppress_dirs = { "~/", "~/Downloads" },
-      }
-    end
-  },
+	-- File tree
+	{
+	"nvim-tree/nvim-tree.lua",
+	version = "*",
+	lazy = false,
+	requires = {
+	"nvim-tree/nvim-web-devicons",
+	},
+	config = function()
+	require("nvim-tree").setup {
+		sync_root_with_cwd = true,
+		respect_buf_cwd = true,
+		update_focused_file = {
+		enable = true,
+		update_root = true
+		},
+	}
+	end,
+	},
 
-  -- Comment code
-  {
-    'terrortylor/nvim-comment',
-    config = function()
-      require("nvim_comment").setup({ create_mappings = false })
-    end
-  },
+	-- Save and load buffers (a session) automatically for each folder
+	{
+	'rmagatti/auto-session',
+	config = function()
+	require("auto-session").setup {
+	log_level = "error",
+	auto_session_suppress_dirs = { "~/", "~/Downloads" },
+	}
+	end
+	},
 
-  -- Visualize buffers as tabs
-  {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
+	-- Comment code
+	{
+	'terrortylor/nvim-comment',
+	config = function()
+	require("nvim_comment").setup({ create_mappings = false })
+	end
+	},
 
-  -- Preview markdown live in web browser
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle" },
-    ft = { "markdown" },
-    build = function() vim.fn["mkdp#util#install"]() end,
-  },
+	-- Visualize buffers as tabs
+	{'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
 
-  -- LSP zero
-  {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
-    lazy = true,
-    config = false,
-    init = function()
-      -- Disable automatic setup, we are doing it manually
-      vim.g.lsp_zero_extend_cmp = 0
-      vim.g.lsp_zero_extend_lspconfig = 0
-    end,
-  },
-  {
-    'williamboman/mason.nvim',
-    lazy = false,
-    config = true,
-  },
+	-- Preview markdown live in web browser
+	{
+	"iamcco/markdown-preview.nvim",
+	cmd = { "MarkdownPreviewToggle" },
+	ft = { "markdown" },
+	build = function() vim.fn["mkdp#util#install"]() end,
+	},
 
-  -- Autocompletion
-  {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
-    dependencies = {
-      {'L3MON4D3/LuaSnip'},
-    },
-    config = function()
-      -- Here is where you configure the autocompletion settings.
-      local lsp_zero = require('lsp-zero')
-      lsp_zero.extend_cmp()
-
-      -- And you can configure cmp even more, if you want to.
-      local cmp = require('cmp')
-      local cmp_action = lsp_zero.cmp_action()
-
-      cmp.setup({
-        formatting = lsp_zero.cmp_format({details = true}),
-        mapping = cmp.mapping.preset.insert({
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-d>'] = cmp.mapping.scroll_docs(4),
-          ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-          ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-        })
-      })
-    end
-  },
-
-  -- LSP
-  {
-    'neovim/nvim-lspconfig',
-    cmd = {'LspInfo', 'LspInstall', 'LspStart'},
-    event = {'BufReadPre', 'BufNewFile'},
-    dependencies = {
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'williamboman/mason-lspconfig.nvim'},
-    },
-    config = function()
-      -- This is where all the LSP shenanigans will live
-      local lsp_zero = require('lsp-zero')
-      lsp_zero.extend_lspconfig()
-
-      --- if you want to know more about lsp-zero and mason.nvim
-      --- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
-      lsp_zero.on_attach(function(client, bufnr)
-        -- see :help lsp-zero-keybindings
-        -- to learn the available actions
-        lsp_zero.default_keymaps({buffer = bufnr})
-      end)
-
-      require('mason-lspconfig').setup({
-        ensure_installed = {
-          'pyright',  -- python
-          'tsserver', -- js, ts
-	  'rubocop', -- Ruby
-	  'sorbet',
-        },
-        handlers = {
-          lsp_zero.default_setup,
-          lua_ls = function()
-            -- (Optional) Configure lua language server for neovim
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require('lspconfig').lua_ls.setup(lua_opts)
-          end,
-        }
-      })
-      
-      -- Python environment
-      local util = require("lspconfig/util")
-      local path = util.path
-      require('lspconfig').pyright.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        before_init = function(_, config)
-          default_venv_path = path.join(vim.env.HOME, "virtualenvs", "nvim-venv", "bin", "python")
-          config.settings.python.pythonPath = default_venv_path
-        end,
-      }
-    end
-  }
-
+	-- LSP zero (OLD 6/5/24)
+	{
+	'VonHeikemen/lsp-zero.nvim',
+	branch = 'v3.x',
+	lazy = true,
+	config = false,
+	init = function()
+	-- Disable automatic setup, we are doing it manually
+	vim.g.lsp_zero_extend_cmp = 0
+	vim.g.lsp_zero_extend_lspconfig = 0
+	end,
+	},
+	{
+	'williamboman/mason.nvim',
+	lazy = false,
+	config = true,
+	},
+	
+	-- Autocompletion
+	{
+	'hrsh7th/nvim-cmp',
+	event = 'InsertEnter',
+	dependencies = {
+	{'L3MON4D3/LuaSnip'},
+	},
+	config = function()
+	-- Here is where you configure the autocompletion settings.
+	local lsp_zero = require('lsp-zero')
+	lsp_zero.extend_cmp()
+	
+	-- And you can configure cmp even more, if you want to.
+	local cmp = require('cmp')
+	local cmp_action = lsp_zero.cmp_action()
+	
+	cmp.setup({
+	formatting = lsp_zero.cmp_format({details = true}),
+	mapping = cmp.mapping.preset.insert({
+	  ['<C-Space>'] = cmp.mapping.complete(),
+	  ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+	  ['<C-d>'] = cmp.mapping.scroll_docs(4),
+	  ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+	  ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+	})
+	})
+	end
+	},
+	
+	-- LSP
+	{
+	'neovim/nvim-lspconfig',
+	cmd = {'LspInfo', 'LspInstall', 'LspStart'},
+	event = {'BufReadPre', 'BufNewFile'},
+	dependencies = {
+	{'hrsh7th/cmp-nvim-lsp'},
+	{'williamboman/mason-lspconfig.nvim'},
+	},
+	config = function()
+	-- This is where all the LSP shenanigans will live
+	local lsp_zero = require('lsp-zero')
+	lsp_zero.extend_lspconfig()
+	
+	--- if you want to know more about lsp-zero and mason.nvim
+	--- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
+	lsp_zero.on_attach(function(client, bufnr)
+	-- see :help lsp-zero-keybindings
+	-- to learn the available actions
+	lsp_zero.default_keymaps({buffer = bufnr})
+	end)
+	
+	require('mason-lspconfig').setup({
+	ensure_installed = {
+	  'pyright',  -- python
+	  'tsserver', -- js, ts
+	  'eslint',
+	  -- 'rubocop', -- Ruby
+	  -- 'sorbet',
+	},
+	log_level = vim.log.levels.DEBUG,
+	handlers = {
+	  lsp_zero.default_setup,
+	  lua_ls = function()
+	    -- (Optional) Configure lua language server for neovim
+	    local lua_opts = lsp_zero.nvim_lua_ls()
+	    require('lspconfig').lua_ls.setup(lua_opts)
+	  end,
+	--   ['tsserver'] = function()
+	--       require('lspconfig').tsserver.setup({
+	-- 	capabilities = require('cmp_nvim_lsp').default_capabilities(),
+	-- 	settings = {
+	-- 	  completions = {
+	-- 	    completeFunctionCalls = true
+	-- 	  }
+	-- 	}
+	--       })
+	--     end
+	}
+	});
+	-- sorbet 
+	require('lspconfig').sorbet.setup {
+	    on_attach = on_attach,
+	    cmd = {"bin/srb", "tc", "--lsp", "--cache-dir", "sorbet"},
+	}
+	-- rubocop
+	require('lspconfig').rubocop.setup {
+	    on_attach = on_attach,
+	    cmd = { "bin/rubocop", "--lsp" },
+	}
+	
+	-- tsserver
+	require('lspconfig').tsserver.setup({
+	-- "typescript.tsserver.log": "verbose",
+	})
+	
+	-- Python environment
+	local util = require("lspconfig/util")
+	local path = util.path
+	require('lspconfig').pyright.setup {
+	on_attach = on_attach,
+	capabilities = capabilities,
+	before_init = function(_, config)
+	  default_venv_path = path.join(vim.env.HOME, "virtualenvs", "nvim-venv", "bin", "python")
+	  config.settings.python.pythonPath = default_venv_path
+	end,
+	}
+	end
+	}
+	
 })
 
