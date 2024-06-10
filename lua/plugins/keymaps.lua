@@ -12,10 +12,10 @@ vim.keymap.set("n", "<leader>r", ":NvimTreeFindFileToggle<cr>")
 vim.keymap.set({"n", "v"}, "<leader>/", ":CommentToggle<cr>")
 
 -- project-nvim
-vim.keymap.set("n", "<leader>p", ":Telescope projects")
+vim.keymap.set("n", "<leader>p", ":Telescope projects<cr>")
 
 -- format code using LSP
-vim.keymap.set("n", "<leader>lsp", vim.lsp.buf.format)
+-- vim.keymap.set("n", "<leader>lsp", vim.lsp.buf.format)
 
 -- GRAVEYARD --
 -- markdown preview
