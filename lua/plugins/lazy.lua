@@ -18,10 +18,10 @@ require('lazy').setup({
 	-- { "rose-pine/neovim", name = "rose-pine" },
 	-- { 'projekt0n/github-nvim-theme' },
 	-- { "catppuccin/nvim", as = "catppuccin" },
-	{ "EdenEast/nightfox.nvim" }, 
+	{ "EdenEast/nightfox.nvim" },
 
 	-- Vim Fugitive
-	-- { 'tpope/vim-fugitive' },
+	{ 'tpope/vim-fugitive' },
 	-- neoterm -> toggleterm
 	{'akinsho/toggleterm.nvim', version = "*", config = true},
 	-- Project.nvim 
@@ -32,8 +32,75 @@ require('lazy').setup({
 	end
 	},
 
+	-- Trouble
+	{
+	  "folke/trouble.nvim",
+	  opts = {}, -- for default options, refer to the configuration section for custom setup.
+	  cmd = "Trouble",
+	  keys = {
+	    {
+	      "<leader>tt",
+	      "<cmd>Trouble diagnostics toggle<cr>",
+	      desc = "Diagnostics (Trouble)",
+	    },
+	    {
+	      "<leader>tT",
+	      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+	      desc = "Buffer Diagnostics (Trouble)",
+	    },
+	    -- {
+	    --   "<leader>cs",
+	    --   "<cmd>Trouble symbols toggle focus=false<cr>",
+	    --   desc = "Symbols (Trouble)",
+	    -- },
+	    -- {
+	    --   "<leader>cl",
+	    --   "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+	    --   desc = "LSP Definitions / references / ... (Trouble)",
+	    -- },
+	    -- {
+	    --   "<leader>xL",
+	    --   "<cmd>Trouble loclist toggle<cr>",
+	    --   desc = "Location List (Trouble)",
+	    -- },
+	    -- {
+	    --   "<leader>xQ",
+	    --   "<cmd>Trouble qflist toggle<cr>",
+	    --   desc = "Quickfix List (Trouble)",
+	    -- },
+	  }
+	},
+
 	-- Fuzzy Finder (files, lsp, etc)
-	{ 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' } },
+	{ 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+
+	-- Treesitter
+	{
+	"nvim-treesitter/nvim-treesitter",
+	config = function()
+	require("nvim-treesitter.configs").setup({
+	  context_commentstring = {
+	    config = {
+	       javascript = {
+		  __default = '// %s',
+		  jsx_element = '{/* %s */}',
+		  jsx_fragment = '{/* %s */}',
+		  jsx_attribute = '// %s',
+		  comment = '// %s',
+	       },
+	       typescript = {
+		       __default = '// %s',
+			tsx_element = '{/* %s */}',
+			tsx_fragment = '{/* %s */}',
+			tsx_attribute = '// %s',
+			jsx_element = '{/* %s */}',
+			jsx_fragment = '{/* %s */}',
+			jsx_attribute = '// %s',
+		       __multiline = '/* %s */' },
+		},
+  	}})
+	end,
+	},
 
 	-- File tree
 	{
@@ -56,21 +123,27 @@ require('lazy').setup({
 	},
 
 	-- Save and load buffers (a session) automatically for each folder
-	{
-	'rmagatti/auto-session',
-	config = function()
-	require("auto-session").setup {
-	log_level = "error",
-	auto_session_suppress_dirs = { "~/", "~/Downloads" },
-	}
-	end
-	},
+	-- {
+	-- 'rmagatti/auto-session',
+	-- config = function()
+	-- require("auto-session").setup {
+	-- log_level = "error",
+	-- auto_session_suppress_dirs = { "~/", "~/Downloads" },
+	-- }
+	-- end
+	-- },
+
+	{'JoosepAlviste/nvim-ts-context-commentstring'},
 
 	-- Comment code
 	{
 	'terrortylor/nvim-comment',
 	config = function()
-	require("nvim_comment").setup({ create_mappings = false })
+	require("nvim_comment").setup({ create_mappings = false,
+	  hook = function()
+		require('ts_context_commentstring').update_commentstring()
+	  end,
+	})
 	end
 	},
 
@@ -102,7 +175,7 @@ require('lazy').setup({
 	lazy = false,
 	config = true,
 	},
-	
+
 	-- Autocompletion
 	{
 	'hrsh7th/nvim-cmp',
@@ -114,11 +187,11 @@ require('lazy').setup({
 	-- Here is where you configure the autocompletion settings.
 	local lsp_zero = require('lsp-zero')
 	lsp_zero.extend_cmp()
-	
+
 	-- And you can configure cmp even more, if you want to.
 	local cmp = require('cmp')
 	local cmp_action = lsp_zero.cmp_action()
-	
+
 	cmp.setup({
 	formatting = lsp_zero.cmp_format({details = true}),
 	mapping = cmp.mapping.preset.insert({
@@ -131,7 +204,7 @@ require('lazy').setup({
 	})
 	end
 	},
-	
+
 	-- LSP
 	{
 	'neovim/nvim-lspconfig',
@@ -145,7 +218,7 @@ require('lazy').setup({
 	-- This is where all the LSP shenanigans will live
 	local lsp_zero = require('lsp-zero')
 	lsp_zero.extend_lspconfig()
-	
+
 	--- if you want to know more about lsp-zero and mason.nvim
 	--- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 	lsp_zero.on_attach(function(client, bufnr)
@@ -153,7 +226,7 @@ require('lazy').setup({
 	-- to learn the available actions
 	lsp_zero.default_keymaps({buffer = bufnr})
 	end)
-	
+
 	require('mason-lspconfig').setup({
 	ensure_installed = {
 	  'pyright',  -- python
@@ -183,34 +256,34 @@ require('lazy').setup({
 	}
 	});
 	-- sorbet 
-	require('lspconfig').sorbet.setup {
-	    on_attach = on_attach,
-	    cmd = {"bin/srb", "tc", "--lsp", "--cache-dir", "sorbet"},
-	}
-	-- rubocop
-	require('lspconfig').rubocop.setup {
-	    on_attach = on_attach,
-	    cmd = { "bin/rubocop", "--lsp" },
-	}
-	
-	-- tsserver
-	require('lspconfig').tsserver.setup({
-	-- "typescript.tsserver.log": "verbose",
-	})
-	
-	-- Python environment
-	local util = require("lspconfig/util")
-	local path = util.path
-	require('lspconfig').pyright.setup {
-	on_attach = on_attach,
-	capabilities = capabilities,
-	before_init = function(_, config)
-	  default_venv_path = path.join(vim.env.HOME, "virtualenvs", "nvim-venv", "bin", "python")
-	  config.settings.python.pythonPath = default_venv_path
-	end,
-	}
+	-- require('lspconfig').sorbet.setup {
+	--     on_attach = on_attach,
+	--     cmd = {"bin/srb", "tc", "--lsp", "--cache-dir", "sorbet"},
+	-- }
+	-- -- rubocop
+	-- require('lspconfig').rubocop.setup {
+	--     on_attach = on_attach,
+	--     cmd = { "bin/rubocop", "--lsp" },
+	-- }
+	--
+	-- -- tsserver
+	-- require('lspconfig').tsserver.setup({
+	-- -- "typescript.tsserver.log": "verbose",
+	-- })
+	--
+	-- -- Python environment
+	-- local util = require("lspconfig/util")
+	-- local path = util.path
+	-- require('lspconfig').pyright.setup {
+	-- on_attach = on_attach,
+	-- capabilities = capabilities,
+	-- before_init = function(_, config)
+	--   default_venv_path = path.join(vim.env.HOME, "virtualenvs", "nvim-venv", "bin", "python")
+	--   config.settings.python.pythonPath = default_venv_path
+	-- end,
+	-- }
 	end
 	}
-	
+
 })
 
