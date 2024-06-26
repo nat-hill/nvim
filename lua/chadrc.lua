@@ -5,10 +5,20 @@
 local M = {}
 
 M.ui = {
-	theme = "doomchad",
+	theme = "gruvchad",
   statusline = {
     -- theme="vscode_colored"
     theme="minimal"
+  },
+  nvdash = {
+    load_on_startup = true,
+    header = {
+"         .            ",
+"   \\_____)\\_____     ",
+"   /--v____ __`<      ",
+"           )/         ",
+"           '          ",
+    },
   }
 --   nvdash = {      -- Dashboard.. see: https://patorjk.com/software/taag/
 --     load_on_startup = true,

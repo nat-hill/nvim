@@ -7,8 +7,7 @@ return {
     end,
   },
   -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
-  -- { 'numToStr/Comment.nvim',  lazy = false },
-  -- These are some examples, uncomment them if you want to see them work!
+  -- LSP 
   {
     "neovim/nvim-lspconfig",
     config = function()
