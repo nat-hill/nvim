@@ -15,8 +15,16 @@ require('telescope').setup{
 }
 
 require("nvim-tree").setup({
-  view = { adaptive_size = true },
+-- vim.g.nvim_tree_respect_buf_cwd = 1
+    sync_root_with_cwd = true,
+		respect_buf_cwd = true,
+		update_focused_file = {
+      enable = true,
+      update_root = true
+		},
+    view = { adaptive_size = true },
 })
+
   -- pickers = {
   --   find_files = {
   --     theme = "dropdown",
