@@ -1,4 +1,11 @@
-return {
+return {}
+-- require "setup.harpoon"
+-- local jfind = require("jfind")
+-- local key = require("jfind.key")
+-- require "configs.jfind"
+-- REASON FOR DEPRECATION:
+-- Terrible terrible settings
+-- return {
 -- {
   --   "kylechui/nvim-surround",
   --   version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -9,4 +16,55 @@ return {
   --       })
   --   end
   -- },
-}
+-- }
+-- REASON FOR DEPRECATION:
+-- UI Buggy, was faster, but not by a good enough amount to justify badness.
+-- Syntax Highlighting on Bat was eh.
+  -- { "jake-stewart/jfind.nvim", branch = "2.0" },
+-- jfind.setup({
+--     exclude = {
+--         ".git",
+--         ".idea",
+--         ".vscode",
+--         ".sass-cache",
+--         ".class",
+--         "__pycache__",
+--         "node_modules",
+--         "target",
+--         "build",
+--         "tmp",
+--         "assets",
+--         "dist",
+--         "public",
+--         "*.iml",
+--         "*.meta"
+--     },
+--     -- windowBorder = true,
+--     tmux = true,
+-- });
+--
+-- -- fuzzy file search can be started simply with
+-- vim.keymap.set("n", "<leader>aa>", jfind.findFile)
+--
+-- vim.keymap.set("n", "<leader>ab", function()
+--     jfind.liveGrep({
+--         exclude = {"*.hpp"},       -- overrides setup excludes
+--         hidden = true,             -- grep hidden files/directories
+--         caseSensitivity = "smart", -- sensitive, insensitive, smart
+--                                    --     will use vim settings by default
+--         preview = true,
+--         previewPosition = "top",
+--         callback = {
+--             [key.DEFAULT] = jfind.editGotoLine,
+--             [key.CTRL_B] = jfind.splitGotoLine,
+--             [key.CTRL_N] = jfind.vsplitGotoLine,
+--         }
+--     })
+-- end)
+-- REASON FOR DEPRECATION:
+-- Just didn't use enough.
+  -- {
+  --   "ThePrimeagen/harpoon",
+  --   branch = "harpoon2",
+  --   dependencies = { "nvim-lua/plenary.nvim" }
+  -- },
