@@ -24,7 +24,10 @@ lspconfig.tsserver.setup {
 
 -- sorbet (ruby)
 require('lspconfig').sorbet.setup {
-    on_attach = on_attach,
-    cmd = {"bin/srb", "tc", "--lsp", "--cache-dir", "sorbet"},
+  on_attach = on_attach,
+  on_init = on_init,
+  -- cmd = {"bin/srb", "tc", "--lsp", "--cache-dir", "sorbet"},
+  cmd = {"bin/srb", "tc", "--lsp" },
+  capabilities = capabilities,
 }
 
